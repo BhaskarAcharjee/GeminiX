@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import "./Main.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
+import NameModal from "../SignIn/NameModal";
 
 const Main = () => {
   const {
@@ -15,26 +16,18 @@ const Main = () => {
   } = useContext(Context);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [fullName, setFullName] = useState(""); // State for full name
+  const [firstName, setFirstName] = useState("World"); // State for displaying first name
+  const [profilePic, setProfilePic] = useState(assets.dummy_icon); // State for profile picture
 
   const dropdownRef = useRef(null);
-  const profileRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
-      }
-
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target)
-      ) {
-        setProfileOpen(false);
       }
     };
 
@@ -47,12 +40,12 @@ const Main = () => {
 
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
-    setProfileOpen(false); // Close profile popup if dropdown is toggled
+    setModalOpen(false); // Close modal if dropdown is toggled
   };
 
   const toggleProfile = () => {
-    setProfileOpen((prev) => !prev);
-    setDropdownOpen(false); // Close dropdown if profile is toggled
+    setModalOpen((prev) => !prev);
+    setDropdownOpen(false); // Close dropdown if modal is toggled
   };
 
   const handleCardClick = (text) => {
@@ -82,6 +75,17 @@ const Main = () => {
     setInput(event.target.value);
   };
 
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  const handleNameSubmit = (event) => {
+    event.preventDefault();
+    const firstNameExtracted = fullName.split(" ")[0]; // Extract first name
+    setFirstName(firstNameExtracted);
+    setModalOpen(false);
+  };
+
   return (
     <div className="main">
       <div className="nav">
@@ -94,28 +98,11 @@ const Main = () => {
             onClick={toggleDropdown}
           />
         </div>
-        <img
-          src={assets.dummy_icon}
-          alt="Profile"
-          onClick={toggleProfile}
-          ref={profileRef}
-        />
+        <img src={profilePic} alt="Profile" onClick={toggleProfile} />
         {dropdownOpen && (
           <div className="dropdown-menu" ref={dropdownRef}>
             <p>GemiAI</p>
             <p>GemiAI Advanced</p>
-          </div>
-        )}
-        {profileOpen && (
-          <div className="profile-menu" ref={profileRef}>
-            <div className="nav-gemini">
-              <p>Sign in</p>
-              <img
-                className="dropdown-arrow"
-                src={assets.signin_icon}
-                alt="dropdown arrow"
-              />
-            </div>
           </div>
         )}
       </div>
@@ -124,7 +111,7 @@ const Main = () => {
           <>
             <div className="greet">
               <p>
-                <span>Hello, Dev</span>
+                <span>Hello, {firstName}</span>
               </p>
               <p>How can I help you today?</p>
             </div>
@@ -178,7 +165,7 @@ const Main = () => {
         ) : (
           <div className="result">
             <div className="result-title">
-              <img src={assets.dummy_icon} alt="" />
+              <img src={profilePic} alt="" />
               <p>{recentPrompt}</p>
             </div>
             <div className="result-data">
@@ -223,6 +210,17 @@ const Main = () => {
           </p>
         </div>
       </div>
+
+      {modalOpen && (
+        <NameModal
+          fullName={fullName}
+          setFullName={setFullName}
+          handleNameSubmit={handleNameSubmit}
+          handleModalClose={handleModalClose}
+          profilePic={profilePic}
+          setProfilePic={setProfilePic}
+        />
+      )}
     </div>
   );
 };
