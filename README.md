@@ -2,16 +2,24 @@
 
 GemiAI is a clone of the Gemini chatbot powered by AI. It allows users to interact with an AI-powered chatbot to generate conversational responses based on user prompts.
 
+### Snapshot
+![Screenshot (381)](https://github.com/BhaskarAcharjee/GemiAI/assets/76872572/7fdcbeb9-fd60-4408-b06e-2fa5d65debe3)
+
+### Live Link : [GemiAI](https://gemi-ai.vercel.app)
+
 ### Features
 
 - **AI-powered Chatbot**: Utilizes AI technology to generate conversational responses based on user prompts.
 - **Responsive Design**: Built with responsive design principles to ensure optimal viewing experience across devices.
+- **Voice Input**: Utilize voice input functionality to interact with GemiAI hands-free.
 - **Persistent Chat History**: Keeps track of previous prompts and responses for seamless conversation flow.
+- **Profile Management**: Users can create profiles by entering their name and uploading a profile picture.
 - **Easy to Use**: Simple and intuitive user interface for easy interaction with the chatbot.
 
 ### Technologies Used
 
 - **React**: Frontend framework for building the user interface.
+- **Vite**: A fast and modern build tool that powers the development server and builds the project for production.
 - **Vercel**: Hosting platform for deploying the application.
 - **Google Generative AI**: Integration with Google's Generative AI model for generating chatbot responses.
 
@@ -48,6 +56,10 @@ To run the GemiAI project locally, follow these steps:
    ```
 
 5. Open your web browser and visit `http://localhost:3000` to view the application.
+
+## Feedback and Support
+
+If you encounter any issues or have suggestions for improvements, feel free to [open an issue](https://github.com/BhaskarAcharjee /gemi-ai/issues). We welcome contributions from the community!
 
 ### Contributing
 
