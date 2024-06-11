@@ -10,7 +10,7 @@ const Main = () => {
     return (
         <div className='main'>
             <div className="nav">
-                <p>GeminiX</p>
+                <p>GemiAI</p>
                 <img src={assets.dummy_icon} alt="" />
             </div>
             <div className="main-container">
