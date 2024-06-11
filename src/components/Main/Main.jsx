@@ -16,6 +16,7 @@ const Main = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [isListening, setIsListening] = useState(false);
 
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
@@ -56,6 +57,29 @@ const Main = () => {
 
   const handleCardClick = (text) => {
     setInput(text);
+  };
+
+  const handleMicClick = () => {
+    const recognition = new window.webkitSpeechRecognition();
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(transcript);
+    };
+
+    recognition.start();
+  };
+
+  const handleInputChange = (event) => {
+    setInput(event.target.value);
   };
 
   return (
@@ -175,14 +199,19 @@ const Main = () => {
         <div className="main-bottom">
           <div className="search-box">
             <input
-              onChange={(e) => setInput(e.target.value)}
+              onChange={handleInputChange}
               value={input}
               type="text"
               placeholder="Enter a prompt here"
             />
             <div>
               <img src={assets.gallery_icon} alt="" />
-              <img src={assets.mic_icon} alt="" />
+              <img
+                src={assets.mic_icon}
+                alt=""
+                onClick={handleMicClick}
+                className={isListening ? "mic-blink" : ""}
+              />
               {input ? (
                 <img onClick={() => onSent()} src={assets.send_icon} alt="" />
               ) : null}

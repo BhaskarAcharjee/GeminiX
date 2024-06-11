@@ -239,6 +239,23 @@
   line-height: 1.8;
 }
 
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.mic-blink {
+  animation: blink 1s infinite;
+}
+
+
 @media (max-width: 600px) {
   .main-bottom input {
     flex: none;
