@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./Main.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
@@ -14,11 +14,53 @@ const Main = () => {
     input,
   } = useContext(Context);
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+    setProfileOpen(false); // Close profile popup if dropdown is toggled
+  };
+
+  const toggleProfile = () => {
+    setProfileOpen((prev) => !prev);
+    setDropdownOpen(false); // Close dropdown if profile is toggled
+  };
+
   return (
     <div className="main">
       <div className="nav">
-        <p>GemiAI</p>
-        <img src={assets.dummy_icon} alt="" />
+        <div className="nav-gemini">
+          <p onClick={toggleDropdown}>GemiAI</p>
+          <img
+            className="dropdown-arrow"
+            src={assets.dropdown_icon}
+            alt="dropdown arrow"
+            onClick={toggleDropdown}
+          />
+        </div>
+        <img src={assets.dummy_icon} alt="Profile" onClick={toggleProfile} />
+        {dropdownOpen && (
+          <div className="dropdown-menu">
+            <p>GemiAI</p>
+            <p>GemiAI Advanced</p>
+          </div>
+        )}
+        {profileOpen && (
+          <div className="profile-menu">
+            <div className="nav-gemini">
+            <p>Sign in</p>
+            <img
+            className="dropdown-arrow"
+            src={assets.signin_icon}
+            alt="dropdown arrow"
+          />
+            </div>
+            {/* <p>Profile Details</p>
+            <p>Settings</p>
+            <p>Logout</p> */}
+          </div>
+        )}
       </div>
       <div className="main-container">
         {!showResult ? (
@@ -87,7 +129,7 @@ const Main = () => {
           </div>
           <p className="bottom-info">
             Gemini may display inaccurate info, including about people, so
-            double-check its response. Your privacy and Gemini Apps
+            double-check its response. <u>Your privacy and Gemini Apps</u>
           </p>
         </div>
       </div>

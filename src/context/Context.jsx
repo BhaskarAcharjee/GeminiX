@@ -28,23 +28,25 @@ const ContextProvider = (props) => {
     setShowResult(true);
     let response;
     if (prompt !== undefined) {
-        response = await runChat(prompt);
-        setRecentPrompt(prompt);
+      response = await runChat(prompt);
+      setRecentPrompt(prompt);
     } else {
-        setPrevPrompts((prev) => [...prev, input]);
-        setRecentPrompt(input);
-        response = await runChat(input);
+      setPrevPrompts((prev) => [...prev, input]);
+      setRecentPrompt(input);
+      response = await runChat(input);
     }
 
-    let formattedResponse = response.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>'); // Bold text enclosed in **
-    formattedResponse = formattedResponse.replace(/\*(.*?)\*/g, '- $1'); // Bullet points for text enclosed in *
-    formattedResponse = formattedResponse.replace(/(\r\n|\n|\r)/gm, '<br>'); // Replace line breaks with <br>
+    let formattedResponse = response
+      .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>") // Bold text enclosed in **
+      .replace(/\* \*\*(.*?):\*\*/g, "» <b>$1:</b>") // Bullet points and bold for * **text:**
+      .replace(/\* (.*?)/g, "• $1"); // Bullet points for * text
+
+    formattedResponse = formattedResponse.replace(/(\r\n|\n|\r)/gm, "<br>"); // Replace line breaks with <br>
 
     setResultData(formattedResponse);
     setLoading(false);
     setInput("");
-};
-
+  };
 
   const contextValue = {
     prevPrompts,
