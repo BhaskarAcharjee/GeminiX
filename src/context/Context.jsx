@@ -23,6 +23,7 @@ const ContextProvider = (props) => {
   };
 
   const onSent = async (prompt) => {
+    setInput(""); // Clear input before generating response
     setResultData("");
     setLoading(true);
     setShowResult(true);
@@ -45,7 +46,6 @@ const ContextProvider = (props) => {
 
     setResultData(formattedResponse);
     setLoading(false);
-    setInput("");
   };
 
   const contextValue = {

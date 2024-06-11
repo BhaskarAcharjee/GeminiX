@@ -29,14 +29,33 @@ const Sidebar = () => {
         {extended ? (
           <div className="recent">
             <p className="recent-title">Recent</p>
-            {prevPrompts.map((item, index) => {
-              return (
-                <div onClick={() => loadPrompt(item)} className="recent-entry">
-                  <img src={assets.message_icon} alt="" />
-                  <p>{item.slice(0, 18)} ...</p>
-                </div>
-              );
-            })}
+            <div className="recent-wrapper">
+              <div className="recent-list">
+                {prevPrompts.map((item, index) => (
+                  <div
+                    key={index}
+                    onClick={() => loadPrompt(item)}
+                    className="recent-entry"
+                  >
+                    <div className="recent-content">
+                      <img
+                        className="message_icon"
+                        src={assets.message_icon}
+                        alt=""
+                      />
+                      <p>{item.slice(0, 22)} ...</p>
+                    </div>
+                    <div className="options-wrapper">
+                      <img
+                        className="options_icon"
+                        src={assets.options_icon}
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         ) : null}
       </div>

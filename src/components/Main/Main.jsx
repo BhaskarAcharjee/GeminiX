@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import "./Main.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
@@ -17,6 +17,33 @@ const Main = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
+  const dropdownRef = useRef(null);
+  const profileRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setDropdownOpen(false);
+      }
+
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target)
+      ) {
+        setProfileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
     setProfileOpen(false); // Close profile popup if dropdown is toggled
@@ -25,6 +52,10 @@ const Main = () => {
   const toggleProfile = () => {
     setProfileOpen((prev) => !prev);
     setDropdownOpen(false); // Close dropdown if profile is toggled
+  };
+
+  const handleCardClick = (text) => {
+    setInput(text);
   };
 
   return (
@@ -39,26 +70,28 @@ const Main = () => {
             onClick={toggleDropdown}
           />
         </div>
-        <img src={assets.dummy_icon} alt="Profile" onClick={toggleProfile} />
+        <img
+          src={assets.dummy_icon}
+          alt="Profile"
+          onClick={toggleProfile}
+          ref={profileRef}
+        />
         {dropdownOpen && (
-          <div className="dropdown-menu">
+          <div className="dropdown-menu" ref={dropdownRef}>
             <p>GemiAI</p>
             <p>GemiAI Advanced</p>
           </div>
         )}
         {profileOpen && (
-          <div className="profile-menu">
+          <div className="profile-menu" ref={profileRef}>
             <div className="nav-gemini">
-            <p>Sign in</p>
-            <img
-            className="dropdown-arrow"
-            src={assets.signin_icon}
-            alt="dropdown arrow"
-          />
+              <p>Sign in</p>
+              <img
+                className="dropdown-arrow"
+                src={assets.signin_icon}
+                alt="dropdown arrow"
+              />
             </div>
-            {/* <p>Profile Details</p>
-            <p>Settings</p>
-            <p>Logout</p> */}
           </div>
         )}
       </div>
@@ -72,19 +105,47 @@ const Main = () => {
               <p>How can I help you today?</p>
             </div>
             <div className="cards">
-              <div className="card">
+              <div
+                className="card"
+                onClick={() =>
+                  handleCardClick(
+                    "Suggest beautiful places to see on an upcoming road trip"
+                  )
+                }
+              >
                 <p>Suggest beautiful places to see on an upcoming road trip</p>
                 <img src={assets.compass_icon} alt="" />
               </div>
-              <div className="card">
+              <div
+                className="card"
+                onClick={() =>
+                  handleCardClick(
+                    "Briefly summarize this concept: urban planning"
+                  )
+                }
+              >
                 <p>Briefly summarize this concept: urban planning</p>
                 <img src={assets.bulb_icon} alt="" />
               </div>
-              <div className="card">
+              <div
+                className="card"
+                onClick={() =>
+                  handleCardClick(
+                    "Brainstorm team bonding activities for our work retreat"
+                  )
+                }
+              >
                 <p>Brainstorm team bonding activities for our work retreat</p>
                 <img src={assets.message_icon} alt="" />
               </div>
-              <div className="card">
+              <div
+                className="card"
+                onClick={() =>
+                  handleCardClick(
+                    "Improve the readability of the following code"
+                  )
+                }
+              >
                 <p>Improve the readability of the following code</p>
                 <img src={assets.code_icon} alt="" />
               </div>
