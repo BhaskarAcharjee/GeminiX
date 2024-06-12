@@ -4,7 +4,7 @@ import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 import NameModal from "../SignIn/NameModal";
 
-const Main = () => {
+const Main = ({ toggleSidebar }) => {
   const {
     onSent,
     recentPrompt,
@@ -90,7 +90,13 @@ const Main = () => {
     <div className="main">
       <div className="nav">
         <div className="nav-gemini">
-          <p onClick={toggleDropdown}>GemiAI</p>
+          <img
+            className="mobile-menu"
+            src={assets.menu_icon}
+            alt="menu-icon"
+            onClick={toggleSidebar}
+          />
+          <p onClick={toggleDropdown}>Geminie</p>
           <img
             className="dropdown-arrow"
             src={assets.dropdown_icon}

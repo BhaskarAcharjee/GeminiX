@@ -3,9 +3,7 @@ import "./Sidebar.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 
-const Sidebar = () => {
-  const [extended, setExtended] = useState(false);
-
+const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { onSent, prevPrompts, setRecentPrompt, newChat } = useContext(Context);
 
   const loadPrompt = async (prompt) => {
@@ -14,19 +12,19 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`sidebar ${extended ? "extended" : ""}`}>
+    <div className={`sidebar ${isOpen ? "extended" : ""}`}>
       <div className="top">
         <img
-          onClick={() => setExtended((prev) => !prev)}
+          onClick={toggleSidebar}
           className="menu"
           src={assets.menu_icon}
-          alt=""
+          alt="menu"
         />
         <div onClick={() => newChat()} className="new-chat">
-          <img className="plus_icon" src={assets.plus_icon} alt="" />
-          {extended ? <p>New Chat</p> : null}
+          <img className="plus_icon" src={assets.plus_icon} alt="plus" />
+          {isOpen ? <p>New Chat</p> : null}
         </div>
-        {extended ? (
+        {isOpen ? (
           <div className="recent">
             <p className="recent-title">Recent</p>
             <div className="recent-wrapper">
@@ -41,7 +39,7 @@ const Sidebar = () => {
                       <img
                         className="message_icon"
                         src={assets.message_icon}
-                        alt=""
+                        alt="message"
                       />
                       <p>{item.slice(0, 22)} ...</p>
                     </div>
@@ -49,7 +47,7 @@ const Sidebar = () => {
                       <img
                         className="options_icon"
                         src={assets.options_icon}
-                        alt=""
+                        alt="options"
                       />
                     </div>
                   </div>
@@ -61,16 +59,16 @@ const Sidebar = () => {
       </div>
       <div className="bottom">
         <div className="bottom-item recent-entry">
-          <img src={assets.question_icon} alt="" />
-          {extended ? <p>Help</p> : null}
+          <img src={assets.question_icon} alt="question" />
+          {isOpen ? <p>Help</p> : null}
         </div>
         <div className="bottom-item recent-entry">
-          <img src={assets.history_icon} alt="" />
-          {extended ? <p>Activity</p> : null}
+          <img src={assets.history_icon} alt="history" />
+          {isOpen ? <p>Activity</p> : null}
         </div>
         <div className="bottom-item recent-entry">
-          <img src={assets.setting_icon} alt="" />
-          {extended ? <p>Settings</p> : null}
+          <img src={assets.setting_icon} alt="setting" />
+          {isOpen ? <p>Settings</p> : null}
         </div>
       </div>
     </div>

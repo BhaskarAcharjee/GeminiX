@@ -5,11 +5,12 @@
   background-color: #f0f4f9;
   padding: 25px 15px;
   width: 70px;
-  transition: width 0.3s ease; 
+  transition: width 0.3s ease;
 }
 
 .sidebar.extended {
   width: 280px;
+  transform: translateX(0);
 }
 
 .sidebar img {
@@ -21,12 +22,12 @@
   width: 14px !important;
 }
 
-.message_icon{
+.message_icon {
   width: 13px !important;
   margin-top: 3px;
 }
 
-.options_icon{
+.options_icon {
   width: 13px !important;
   margin-top: 5px;
 }
@@ -100,7 +101,7 @@
   border-radius: 50px;
   color: #282828;
   cursor: pointer;
-  white-space: nowrap; 
+  white-space: nowrap;
   position: relative;
 }
 
@@ -115,7 +116,7 @@
   flex-grow: 1; /* Allow content to grow */
 }
 
-.recent-content p{
+.recent-content p {
   margin-left: 10px;
 }
 
@@ -138,8 +139,19 @@
   cursor: pointer;
 }
 
+.menu {
+  width: 25px !important;
+  margin-top: 2px;
+}
+
 @media (max-width: 600px) {
+  .sidebar {
+    display: none;
+    transform: translateX(-100%);
+  }
+
   .sidebar.extended {
-    width: 150px;
+    display: flex;
+    transform: translateX(0);
   }
 }
