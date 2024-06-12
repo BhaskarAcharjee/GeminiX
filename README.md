@@ -1,11 +1,11 @@
-# GemiAI
+# Geminie-AI
 
-GemiAI is a clone of the Gemini chatbot powered by AI. It allows users to interact with an AI-powered chatbot to generate conversational responses based on user prompts.
+Geminie-AI is a clone of the Gemini chatbot powered by AI. It allows users to interact with an AI-powered chatbot to generate conversational responses based on user prompts.
 
 ### Snapshot
-![Screenshot (381)](https://github.com/BhaskarAcharjee/GemiAI/assets/76872572/7fdcbeb9-fd60-4408-b06e-2fa5d65debe3)
+![Screenshot (383)](https://github.com/BhaskarAcharjee/Geminie-AI/assets/76872572/c1866c62-e4f7-4395-896a-d1bc3a8febb0)
 
-### Live Link : [GemiAI](https://gemi-ai.vercel.app)
+### Live Link : [Geminie-AI](https://geminie-ai.vercel.app)
 
 ### Features
 
@@ -25,7 +25,7 @@ GemiAI is a clone of the Gemini chatbot powered by AI. It allows users to intera
 
 ### Usage
 
-1. Visit the [GemiAI](https://gemi-ai.vercel.app) website.
+1. Visit the [Geminie-AI](https://geminie-ai.vercel.app) website.
 2. Enter a prompt in the chat input field.
 3. Press Enter or click the send button to send the prompt to the chatbot.
 4. View the generated response from the chatbot.
@@ -33,16 +33,16 @@ GemiAI is a clone of the Gemini chatbot powered by AI. It allows users to intera
 
 ### Installation
 
-To run the GemiAI project locally, follow these steps:
+To run the Geminie-AI project locally, follow these steps:
 
 1. Clone the GitHub repository:
    ```bash
-   git clone https://github.com/BhaskarAcharjee/gemi-ai.git
+   git clone https://github.com/BhaskarAcharjee/geminie-ai.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd gemi-ai
+   cd geminie-ai
    ```
 
 3. Install dependencies:
