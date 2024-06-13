@@ -14,7 +14,7 @@ const App = () => {
 
       if (newState) {
         // If sidebar is open, hide the mobile menu
-          mobileMenu.style.display = "none";
+        mobileMenu.style.display = "none";
       } else {
         // If sidebar is closed, show the mobile menu
         if (window.innerWidth <= 600) {

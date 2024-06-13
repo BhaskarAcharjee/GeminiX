@@ -6,7 +6,6 @@
   padding: 25px 15px;
   width: 70px;
   transition: width 0.3s ease;
-  overflow-x: hidden;
 }
 
 .sidebar.extended {
@@ -153,16 +152,6 @@
 
   .sidebar.extended {
     display: flex;
-    width: 150px;
     transform: translateX(0);
-  }
-
-  .sidebar .recent-wrapper {
-    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
-    overflow-y: scroll;
-  }
-
-  .sidebar .recent-wrapper::-webkit-scrollbar {
-    display: none; /* Hide scrollbar */
   }
 }
