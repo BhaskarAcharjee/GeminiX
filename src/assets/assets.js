@@ -17,6 +17,8 @@ import dummy_icon from './dummy.png'
 import dropdown_icon from './dropdown_icon.png'
 import signin_icon from './signin_icon.png'
 import options_icon from './options_icon.png'
+import more_options_icon from './more_options_icon.png'
+import google_gemini_icon from './google_gemini_icon.webp'
 
 export const assets = {
     history_icon,
@@ -37,5 +39,7 @@ export const assets = {
     dummy_icon,
     dropdown_icon,
     signin_icon, 
-    options_icon
+    options_icon,
+    more_options_icon,
+    google_gemini_icon
 }

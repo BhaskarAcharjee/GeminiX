@@ -14,10 +14,12 @@ const App = () => {
 
       if (newState) {
         // If sidebar is open, hide the mobile menu
-        mobileMenu.style.display = "none";
+          mobileMenu.style.display = "none";
       } else {
         // If sidebar is closed, show the mobile menu
-        mobileMenu.style.display = "inline-block";
+        if (window.innerWidth <= 600) {
+          mobileMenu.style.display = "inline-block";
+        }
       }
 
       return newState;

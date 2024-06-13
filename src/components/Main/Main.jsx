@@ -21,8 +21,10 @@ const Main = ({ toggleSidebar }) => {
   const [fullName, setFullName] = useState(""); // State for full name
   const [firstName, setFirstName] = useState("World"); // State for displaying first name
   const [profilePic, setProfilePic] = useState(assets.dummy_icon); // State for profile picture
+  const [selectedFile, setSelectedFile] = useState(null); // State for selected file
 
   const dropdownRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -86,6 +88,19 @@ const Main = ({ toggleSidebar }) => {
     setModalOpen(false);
   };
 
+  const handleGalleryClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      // Handle file upload or sending here
+      // Example: uploadFile(file);
+    }
+  };
+
   return (
     <div className="main">
       <div className="nav">
@@ -104,11 +119,18 @@ const Main = ({ toggleSidebar }) => {
             onClick={toggleDropdown}
           />
         </div>
-        <img src={profilePic} alt="Profile" onClick={toggleProfile} />
+        <div className="right-nav">
+          <button className="try-advanced">
+            <img src={assets.google_gemini_icon} alt="gemini icon" />
+            Try Geminie Advanced
+          </button>
+          <img src={assets.more_options_icon} alt="more option icon" className="more_options"/>
+          <img src={profilePic} alt="Profile" onClick={toggleProfile} className="profile_image"/>
+        </div>
         {dropdownOpen && (
           <div className="dropdown-menu" ref={dropdownRef}>
-            <p>GemiAI</p>
-            <p>GemiAI Advanced</p>
+            <p>Geminie</p>
+            <p>Geminie Advanced</p>
           </div>
         )}
       </div>
@@ -171,7 +193,7 @@ const Main = ({ toggleSidebar }) => {
         ) : (
           <div className="result">
             <div className="result-title">
-              <img src={profilePic} alt="" />
+              <img src={profilePic} alt="" className="profile_image" />
               <p>{recentPrompt}</p>
             </div>
             <div className="result-data">
@@ -198,7 +220,13 @@ const Main = ({ toggleSidebar }) => {
               placeholder="Enter a prompt here"
             />
             <div>
-              <img src={assets.gallery_icon} alt="" />
+              <img src={assets.gallery_icon} alt="gallery" onClick={handleGalleryClick} />
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
               <img
                 src={assets.mic_icon}
                 alt=""
