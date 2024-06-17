@@ -3,6 +3,7 @@ import "./Main.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 import NameModal from "../SignIn/NameModal";
+import Cards from "../../Subcomponents/Cards";
 
 const Main = ({ toggleSidebar }) => {
   const {
@@ -102,6 +103,11 @@ const Main = ({ toggleSidebar }) => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSent(input);
+  };
+
   return (
     <div className="main">
       <div className="nav">
@@ -160,52 +166,7 @@ const Main = ({ toggleSidebar }) => {
               </p>
               <p>How can I help you today?</p>
             </div>
-            <div className="cards">
-              <div
-                className="card"
-                onClick={() =>
-                  handleCardClick(
-                    "Suggest beautiful places to see on an upcoming road trip"
-                  )
-                }
-              >
-                <p>Suggest beautiful places to see on an upcoming road trip</p>
-                <img src={assets.compass_icon} alt="" />
-              </div>
-              <div
-                className="card"
-                onClick={() =>
-                  handleCardClick(
-                    "Briefly summarize this concept: urban planning"
-                  )
-                }
-              >
-                <p>Briefly summarize this concept: urban planning</p>
-                <img src={assets.bulb_icon} alt="" />
-              </div>
-              <div
-                className="card"
-                onClick={() =>
-                  handleCardClick(
-                    "Brainstorm team bonding activities for our work retreat"
-                  )
-                }
-              >
-                <p>Brainstorm team bonding activities for our work retreat</p>
-                <img src={assets.message_icon} alt="" />
-              </div>
-              <div
-                className="card"
-                onClick={() =>
-                  handleCardClick(
-                    "Improve the readability of the following code"
-                  )
-                }
-              >
-                <p>Improve the readability of the following code</p>
-                <img src={assets.code_icon} alt="" />
-              </div>
-            </div>
+            <Cards handleCardClick={handleCardClick} />
           </>
         ) : (
           <div className="result">
@@ -229,40 +190,42 @@ const Main = ({ toggleSidebar }) => {
         )}
 
         <div className="main-bottom">
-          <div className="search-box">
-            <input
-              onChange={handleInputChange}
-              value={input}
-              type="text"
-              placeholder={
-                showSummarizer
-                  ? "Enter a URL to summarize article"
-                  : "Enter a prompt here"
-              }
-            />
-            <div>
-              <img
-                src={assets.gallery_icon}
-                alt=""
-                onClick={handleGalleryClick}
-              />
+          <form onSubmit={handleSubmit}>
+            <div className="search-box">
               <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
+                onChange={handleInputChange}
+                value={input}
+                type="text"
+                placeholder={
+                  showSummarizer
+                    ? "Enter a URL to summarize article"
+                    : "Enter a prompt here"
+                }
               />
-              <img
-                src={assets.mic_icon}
-                alt=""
-                onClick={handleMicClick}
-                className={isListening ? "mic-blink" : ""}
-              />
-              {input ? (
-                <img onClick={() => onSent()} src={assets.send_icon} alt="" />
-              ) : null}
+              <div>
+                <img
+                  src={assets.gallery_icon}
+                  alt=""
+                  onClick={handleGalleryClick}
+                />
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+                <img
+                  src={assets.mic_icon}
+                  alt=""
+                  onClick={handleMicClick}
+                  className={isListening ? "mic-blink" : ""}
+                />
+                {input ? (
+                  <img onClick={() => onSent()} src={assets.send_icon} alt="" />
+                ) : null}
+              </div>
             </div>
-          </div>
+          </form>
           <p className="bottom-info">
             {showSummarizer ? (
               <>

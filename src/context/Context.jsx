@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import runChat from "../config/gemini";
-import { fetchSummary } from "../services/article"; // Import the summarizer service
+import { fetchSummary } from "../config/article"; // Import the summarizer service
 
 export const Context = createContext();
 
@@ -28,14 +28,14 @@ const ContextProvider = (props) => {
     setResultData("");
     setLoading(true);
     setShowResult(true);
-
+  
     if (isValidUrl(input)) {
       // If input is a URL, use the summarizer API
+      setRecentPrompt(input); // Update recentPrompt immediately
       try {
         const summary = await fetchSummary(input);
         setResultData(summary);
         setLoading(false);
-        setRecentPrompt(input);
       } catch (error) {
         console.error(error);
         setResultData("Failed to fetch summary.");
@@ -52,18 +52,19 @@ const ContextProvider = (props) => {
         setRecentPrompt(input);
         response = await runChat(input);
       }
-
+  
       let formattedResponse = response
         .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>") // Bold text enclosed in **
         .replace(/\* \*\*(.*?):\*\*/g, "» <b>$1:</b>") // Bullet points and bold for * **text:**
         .replace(/\* (.*?)/g, "• $1"); // Bullet points for * text
-
+  
       formattedResponse = formattedResponse.replace(/(\r\n|\n|\r)/gm, "<br>"); // Replace line breaks with <br>
-
+  
       setResultData(formattedResponse);
       setLoading(false);
     }
   };
+  
 
   const isValidUrl = (string) => {
     try {
