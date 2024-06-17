@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import runChat from "../config/gemini";
+import { fetchSummary } from "../services/article"; // Import the summarizer service
 
 export const Context = createContext();
 
@@ -27,25 +28,50 @@ const ContextProvider = (props) => {
     setResultData("");
     setLoading(true);
     setShowResult(true);
-    let response;
-    if (prompt !== undefined) {
-      response = await runChat(prompt);
-      setRecentPrompt(prompt);
+
+    if (isValidUrl(input)) {
+      // If input is a URL, use the summarizer API
+      try {
+        const summary = await fetchSummary(input);
+        setResultData(summary);
+        setLoading(false);
+        setRecentPrompt(input);
+      } catch (error) {
+        console.error(error);
+        setResultData("Failed to fetch summary.");
+        setLoading(false);
+      }
     } else {
-      setPrevPrompts((prev) => [...prev, input]);
-      setRecentPrompt(input);
-      response = await runChat(input);
+      // If input is a text prompt, use the chat API
+      let response;
+      if (prompt !== undefined) {
+        response = await runChat(prompt);
+        setRecentPrompt(prompt);
+      } else {
+        setPrevPrompts((prev) => [...prev, input]);
+        setRecentPrompt(input);
+        response = await runChat(input);
+      }
+
+      let formattedResponse = response
+        .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>") // Bold text enclosed in **
+        .replace(/\* \*\*(.*?):\*\*/g, "» <b>$1:</b>") // Bullet points and bold for * **text:**
+        .replace(/\* (.*?)/g, "• $1"); // Bullet points for * text
+
+      formattedResponse = formattedResponse.replace(/(\r\n|\n|\r)/gm, "<br>"); // Replace line breaks with <br>
+
+      setResultData(formattedResponse);
+      setLoading(false);
     }
+  };
 
-    let formattedResponse = response
-      .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>") // Bold text enclosed in **
-      .replace(/\* \*\*(.*?):\*\*/g, "» <b>$1:</b>") // Bullet points and bold for * **text:**
-      .replace(/\* (.*?)/g, "• $1"); // Bullet points for * text
-
-    formattedResponse = formattedResponse.replace(/(\r\n|\n|\r)/gm, "<br>"); // Replace line breaks with <br>
-
-    setResultData(formattedResponse);
-    setLoading(false);
+  const isValidUrl = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
   };
 
   const contextValue = {
@@ -61,6 +87,7 @@ const ContextProvider = (props) => {
     setInput,
     newChat,
   };
+
   return (
     <Context.Provider value={contextValue}>{props.children}</Context.Provider>
   );

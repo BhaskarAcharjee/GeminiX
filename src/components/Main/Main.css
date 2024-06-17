@@ -111,6 +111,16 @@
   -webkit-text-fill-color: transparent;
 }
 
+.main .greett {
+  margin: 0px 30px;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  color: #c4c7c5;
+  font-weight: 500;
+  margin-top: 25px;
+  margin-bottom: 30px;
+}
+
 .main .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));

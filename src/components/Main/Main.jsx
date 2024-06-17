@@ -21,8 +21,11 @@ const Main = ({ toggleSidebar }) => {
   const [fullName, setFullName] = useState(""); // State for full name
   const [firstName, setFirstName] = useState("World"); // State for displaying first name
   const [profilePic, setProfilePic] = useState(assets.dummy_icon); // State for profile picture
+  const [selectedFile, setSelectedFile] = useState(null); // State for selected file
+  const [showSummarizer, setShowSummarizer] = useState(false); // State for showing summarizer
 
   const dropdownRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -86,6 +89,19 @@ const Main = ({ toggleSidebar }) => {
     setModalOpen(false);
   };
 
+  const handleGalleryClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      // Handle file upload or sending here
+      // Example: uploadFile(file);
+    }
+  };
+
   return (
     <div className="main">
       <div className="nav">
@@ -96,7 +112,9 @@ const Main = ({ toggleSidebar }) => {
             alt="menu-icon"
             onClick={toggleSidebar}
           />
-          <p onClick={toggleDropdown}>Geminie</p>
+          <p onClick={toggleDropdown}>
+            {showSummarizer ? "Geminie Summarizer" : "Geminie"}
+          </p>
           <img
             className="dropdown-arrow"
             src={assets.dropdown_icon}
@@ -104,16 +122,37 @@ const Main = ({ toggleSidebar }) => {
             onClick={toggleDropdown}
           />
         </div>
-        <img src={profilePic} alt="Profile" onClick={toggleProfile} className="profile_image"/>
+        <img
+          src={profilePic}
+          alt="Profile"
+          onClick={toggleProfile}
+          className="profile_image"
+        />
         {dropdownOpen && (
           <div className="dropdown-menu" ref={dropdownRef}>
-            <p>Geminie</p>
-            <p>Geminie Advanced</p>
+            <p onClick={() => setShowSummarizer(false)}>Geminie</p>
+            <p onClick={() => setShowSummarizer(true)}>Geminie Summarizer</p>
           </div>
         )}
       </div>
       <div className="main-container">
-        {!showResult ? (
+        {showSummarizer && !showResult ? (
+          <>
+            <div className="greet">
+              <p>
+                Summarize Articles with <br />
+                <span>OpenAI GPT-4</span>
+              </p>
+            </div>
+            <div className="greett">
+              <p>
+                Simplify your reading with Summize, an open-source article
+                summarizer that transforms lengthy articles into clear and
+                concise summaries
+              </p>
+            </div>
+          </>
+        ) : !showResult ? (
           <>
             <div className="greet">
               <p>
@@ -171,7 +210,7 @@ const Main = ({ toggleSidebar }) => {
         ) : (
           <div className="result">
             <div className="result-title">
-              <img src={profilePic} alt="" className="profile_image"/>
+              <img src={profilePic} alt="" className="profile_image" />
               <p>{recentPrompt}</p>
             </div>
             <div className="result-data">
@@ -195,10 +234,24 @@ const Main = ({ toggleSidebar }) => {
               onChange={handleInputChange}
               value={input}
               type="text"
-              placeholder="Enter a prompt here"
+              placeholder={
+                showSummarizer
+                  ? "Enter a URL to summarize article"
+                  : "Enter a prompt here"
+              }
             />
             <div>
-              <img src={assets.gallery_icon} alt="" />
+              <img
+                src={assets.gallery_icon}
+                alt=""
+                onClick={handleGalleryClick}
+              />
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
               <img
                 src={assets.mic_icon}
                 alt=""
@@ -211,8 +264,18 @@ const Main = ({ toggleSidebar }) => {
             </div>
           </div>
           <p className="bottom-info">
-            Gemini may display inaccurate info, including about people, so
-            double-check its response. <u>Your privacy and Gemini Apps</u>
+            {showSummarizer ? (
+              <>
+                Gemini Summarizer may summarize inaccurate info, including about
+                people, so double-check its response.{" "}
+                <u>Your privacy and Gemini Summarizer</u>
+              </>
+            ) : (
+              <>
+                Gemini may display inaccurate info, including about people, so
+                double-check its response. <u>Your privacy and Gemini Apps</u>
+              </>
+            )}
           </p>
         </div>
       </div>
