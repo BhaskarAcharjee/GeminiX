@@ -17,6 +17,14 @@ import dummy_icon from './dummy.png'
 import dropdown_icon from './dropdown_icon.png'
 import signin_icon from './signin_icon.png'
 import options_icon from './options_icon.png'
+import like_icon from './like_icon.png'
+import dislike_icon from './dislike_icon.png'
+import share_icon from './share_icon.png'
+import copy_icon from './copy_icon.png'
+import google_icon from './google_icon.png'
+import modify_icon from './modify_icon.png'
+import more_options_icon from './more_options_icon.png'
+
 
 export const assets = {
     history_icon,
@@ -37,5 +45,12 @@ export const assets = {
     dummy_icon,
     dropdown_icon,
     signin_icon, 
-    options_icon
+    options_icon,
+    like_icon,
+    dislike_icon,
+    share_icon,
+    copy_icon,
+    google_icon,
+    modify_icon,
+    more_options_icon,
 }

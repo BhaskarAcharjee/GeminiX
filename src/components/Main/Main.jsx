@@ -133,12 +133,19 @@ const Main = ({ toggleSidebar }) => {
             onClick={toggleDropdown}
           />
         </div>
-        <img
-          src={profilePic}
-          alt="Profile"
-          onClick={toggleProfile}
-          className="profile_image"
-        />
+        <div className="nav-profile-options">
+          <img
+            src={assets.more_options_icon}
+            alt="More Options"
+            className="more-options-icon"
+          />
+          <img
+            src={profilePic}
+            alt="Profile"
+            onClick={toggleProfile}
+            className="profile_image"
+          />
+        </div>
         {dropdownOpen && (
           <div className="dropdown-menu" ref={dropdownRef}>
             <p
@@ -177,7 +184,7 @@ const Main = ({ toggleSidebar }) => {
                 <span>OpenAI GPT-4</span>
               </p>
             </div>
-            <div className="greett">
+            <div className="sub-greet">
               <p>
                 Simplify your reading with Summize, an open-source article
                 summarizer that transforms lengthy articles into clear and
@@ -193,8 +200,11 @@ const Main = ({ toggleSidebar }) => {
                 <span>OpenAI GPT-3.5</span>
               </p>
             </div>
-            <div className="greett">
-              <p>Correct your text effortlessly with our spellchecker</p>
+            <div className="sub-greet">
+              <p>
+                Ensure your text is free from errors with our powerful
+                spellchecker and grammar tool. Perfect for flawless writing.
+              </p>
             </div>
           </>
         ) : !showResult ? (
@@ -224,6 +234,15 @@ const Main = ({ toggleSidebar }) => {
               ) : (
                 <p dangerouslySetInnerHTML={{ __html: resultData }}></p>
               )}
+            </div>
+            {/* Add new icons below the result text */}
+            <div className="result-icons">
+              <img src={assets.like_icon} alt="Like" />
+              <img src={assets.dislike_icon} alt="Dislike" />
+              <img src={assets.modify_icon} alt="Modify Response" />
+              <img src={assets.share_icon} alt="Share" />
+              <img src={assets.google_icon} alt="Google" />
+              <img src={assets.copy_icon} alt="Copy" />
             </div>
           </div>
         )}

@@ -45,7 +45,6 @@
   cursor: pointer;
 }
 
-
 .mobile-menu {
   width: 25px !important;
   margin-right: 10px;
@@ -90,6 +89,18 @@
   background-color: #f0f0f0;
 }
 
+.nav-profile-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.more-options-icon {
+  width: 25px;
+  margin-left: -60px;
+  cursor: pointer;
+}
+
 .main-container {
   max-width: 900px;
   margin: auto;
@@ -111,7 +122,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-.main .greett {
+.main .sub-greet {
   margin: 0px 30px;
   font-size: 1.5rem;
   line-height: 2rem;
@@ -278,6 +289,25 @@
   animation: blink 1s infinite;
 }
 
+.result-icons {
+  display: flex;
+  gap: 20px;
+  padding-top: 20px;
+  margin-left: 60px;
+}
+
+.result-icons img {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+/* .result-icons img:hover {
+  background-color: grey;
+  border-radius: 50%;
+} */
+
 /* Media Queries for Responsive Design */
 @media (max-width: 600px) {
   .main-bottom input {
@@ -305,6 +335,10 @@
     display: inline-block;
   }
 
+  /* .main .cards {
+    display: none !important;
+  } */
+
   .main .cards {
     display: flex;
     flex-wrap: wrap;
@@ -325,7 +359,12 @@
 @media (max-width: 440px) {
   .main .greet {
     font-size: 2.5rem;
-    line-height: 3rem;
+    line-height: 2.5rem;
+  }
+
+  .main .sub-greet {
+    font-size: 1rem;
+    line-height: 1rem;
   }
 
   .main .cards {

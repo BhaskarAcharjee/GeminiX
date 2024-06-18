@@ -30,7 +30,10 @@ const NameModal = ({
         <div className="modal-content">
           <div className="modal-body">
             <img
-              src={profilePic || "https://mdbootstrap.com/img/Photos/Avatars/img%20%281%29.webp"}
+              src={
+                profilePic ||
+                "https://img.freepik.com/premium-psd/3d-futuristic-robot-avatar-closeup-portrait-isolated-transparent-background-png-psd_888962-1625.jpg"
+              }
               alt="avatar"
               className="rounded-circle modal-avatar"
             />
