@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import runChat from "../config/gemini";
 import { fetchSummary } from "../config/article"; // Import the summarizer service
+import { spellcheck } from "../config/spellcheck"; // Import the spellchecker service
 import { formatResponseText } from "../utils/formatResponseText"; // Import the utility function
 
 export const Context = createContext();
@@ -18,7 +19,7 @@ const ContextProvider = (props) => {
     setShowResult(false);
   };
 
-  const onSent = async (prompt, isSummarizer) => {
+  const onSent = async (prompt, isSummarizer, isSpellchecker) => {
     setInput(""); // Clear input before generating response
     setResultData("");
     setLoading(true);
@@ -35,6 +36,21 @@ const ContextProvider = (props) => {
       } catch (error) {
         console.error(error);
         setResultData("Failed to fetch summary.");
+        setLoading(false);
+      }
+    } else if (isSpellchecker) {
+      // If input is a text prompt and spellchecker is selected, use the spellchecker API
+      setRecentPrompt(prompt); // Update recentPrompt immediately
+      try {
+        const correctedText = await spellcheck({
+          body: JSON.stringify({ textToCheck: prompt }),
+        });
+        const formattedResponse = formatResponseText(correctedText); // Use the utility function to format the corrected text
+        setResultData(formattedResponse);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setResultData("Failed to check spelling.");
         setLoading(false);
       }
     } else {

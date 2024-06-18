@@ -8,6 +8,7 @@ export default defineConfig(({ command, mode }) => {
     plugins: [react()],
     define: {
       "process.env.API_KEY": JSON.stringify(env.API_KEY),
+      "process.env.OPENAI_API_KEY": JSON.stringify(env.OPENAI_API_KEY),
     },
   };
 });

@@ -24,6 +24,7 @@ const Main = ({ toggleSidebar }) => {
   const [profilePic, setProfilePic] = useState(assets.dummy_icon); // State for profile picture
   const [selectedFile, setSelectedFile] = useState(null); // State for selected file
   const [showSummarizer, setShowSummarizer] = useState(false); // State for showing summarizer
+  const [showSpellchecker, setShowSpellchecker] = useState(false); // State for showing spellchecker
 
   const dropdownRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -105,7 +106,7 @@ const Main = ({ toggleSidebar }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSent(input, showSummarizer);
+    onSent(input, showSummarizer, showSpellchecker);
   };
 
   return (
@@ -119,7 +120,11 @@ const Main = ({ toggleSidebar }) => {
             onClick={toggleSidebar}
           />
           <p onClick={toggleDropdown}>
-            {showSummarizer ? "Geminie Summarizer" : "Geminie"}
+            {showSummarizer
+              ? "Gemini Summarizer"
+              : showSpellchecker
+              ? "Gemini Spellchecker"
+              : "Gemini"}
           </p>
           <img
             className="dropdown-arrow"
@@ -136,8 +141,30 @@ const Main = ({ toggleSidebar }) => {
         />
         {dropdownOpen && (
           <div className="dropdown-menu" ref={dropdownRef}>
-            <p onClick={() => setShowSummarizer(false)}>Geminie</p>
-            <p onClick={() => setShowSummarizer(true)}>Geminie Summarizer</p>
+            <p
+              onClick={() => {
+                setShowSummarizer(false);
+                setShowSpellchecker(false);
+              }}
+            >
+              Gemini
+            </p>
+            <p
+              onClick={() => {
+                setShowSummarizer(true);
+                setShowSpellchecker(false);
+              }}
+            >
+              Gemini Summarizer
+            </p>
+            <p
+              onClick={() => {
+                setShowSpellchecker(true);
+                setShowSummarizer(false);
+              }}
+            >
+              Gemini Spellchecker
+            </p>
           </div>
         )}
       </div>
@@ -156,6 +183,18 @@ const Main = ({ toggleSidebar }) => {
                 summarizer that transforms lengthy articles into clear and
                 concise summaries
               </p>
+            </div>
+          </>
+        ) : showSpellchecker && !showResult ? (
+          <>
+            <div className="greet">
+              <p>
+                Check Spelling & Grammar with <br />
+                <span>OpenAI GPT-3.5</span>
+              </p>
+            </div>
+            <div className="greett">
+              <p>Correct your text effortlessly with our spellchecker</p>
             </div>
           </>
         ) : !showResult ? (
@@ -199,6 +238,8 @@ const Main = ({ toggleSidebar }) => {
                 placeholder={
                   showSummarizer
                     ? "Enter a URL to summarize article"
+                    : showSpellchecker
+                    ? "Enter text to correct spelling and grammar"
                     : "Enter a prompt here"
                 }
               />
@@ -221,7 +262,13 @@ const Main = ({ toggleSidebar }) => {
                   className={isListening ? "mic-blink" : ""}
                 />
                 {input ? (
-                  <img onClick={() => onSent(input, showSummarizer)} src={assets.send_icon} alt="" />
+                  <img
+                    onClick={() =>
+                      onSent(input, showSummarizer, showSpellchecker)
+                    }
+                    src={assets.send_icon}
+                    alt=""
+                  />
                 ) : null}
               </div>
             </div>
@@ -232,6 +279,12 @@ const Main = ({ toggleSidebar }) => {
                 Gemini Summarizer may summarize inaccurate info, including about
                 people, so double-check its response.{" "}
                 <u>Your privacy and Gemini Summarizer</u>
+              </>
+            ) : showSpellchecker ? (
+              <>
+                Gemini Spellchecker may correct inaccurate info, including about
+                people, so double-check its response.{" "}
+                <u>Your privacy and Gemini Spellchecker</u>
               </>
             ) : (
               <>
