@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import runChat from "../config/gemini";
 import { fetchSummary } from "../config/article"; // Import the summarizer service
+import { formatResponseText } from "../utils/formatResponseText"; // Import the utility function
 
 export const Context = createContext();
 
@@ -12,29 +13,24 @@ const ContextProvider = (props) => {
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
 
-  const delayPara = (index, nextWord) => {
-    setTimeout(function () {
-      setResultData((prev) => prev + nextWord);
-    }, 75 * index);
-  };
-
   const newChat = () => {
     setLoading(false);
     setShowResult(false);
   };
 
-  const onSent = async (prompt) => {
+  const onSent = async (prompt, isSummarizer) => {
     setInput(""); // Clear input before generating response
     setResultData("");
     setLoading(true);
     setShowResult(true);
-  
-    if (isValidUrl(input)) {
-      // If input is a URL, use the summarizer API
-      setRecentPrompt(input); // Update recentPrompt immediately
+
+    if (isSummarizer && isValidUrl(prompt)) {
+      // If input is a URL and summarizer is selected, use the summarizer API
+      setRecentPrompt(prompt); // Update recentPrompt immediately
       try {
-        const summary = await fetchSummary(input);
-        setResultData(summary);
+        const summary = await fetchSummary(prompt);
+        const formattedSummary = formatResponseText(summary); // Use the utility function to format the summary
+        setResultData(formattedSummary);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -42,29 +38,23 @@ const ContextProvider = (props) => {
         setLoading(false);
       }
     } else {
-      // If input is a text prompt, use the chat API
+      // If input is a text prompt or summarizer is not selected, use the chat API
       let response;
       if (prompt !== undefined) {
+        setRecentPrompt(prompt); // Update recentPrompt immediately
         response = await runChat(prompt);
-        setRecentPrompt(prompt);
       } else {
         setPrevPrompts((prev) => [...prev, input]);
         setRecentPrompt(input);
         response = await runChat(input);
       }
-  
-      let formattedResponse = response
-        .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>") // Bold text enclosed in **
-        .replace(/\* \*\*(.*?):\*\*/g, "» <b>$1:</b>") // Bullet points and bold for * **text:**
-        .replace(/\* (.*?)/g, "• $1"); // Bullet points for * text
-  
-      formattedResponse = formattedResponse.replace(/(\r\n|\n|\r)/gm, "<br>"); // Replace line breaks with <br>
-  
+
+      const formattedResponse = formatResponseText(response); // Use the utility function to format the response
+
       setResultData(formattedResponse);
       setLoading(false);
     }
   };
-  
 
   const isValidUrl = (string) => {
     try {

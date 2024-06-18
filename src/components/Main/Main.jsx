@@ -105,7 +105,7 @@ const Main = ({ toggleSidebar }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSent(input);
+    onSent(input, showSummarizer);
   };
 
   return (
@@ -221,7 +221,7 @@ const Main = ({ toggleSidebar }) => {
                   className={isListening ? "mic-blink" : ""}
                 />
                 {input ? (
-                  <img onClick={() => onSent()} src={assets.send_icon} alt="" />
+                  <img onClick={() => onSent(input, showSummarizer)} src={assets.send_icon} alt="" />
                 ) : null}
               </div>
             </div>
