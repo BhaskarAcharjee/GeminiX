@@ -4,6 +4,7 @@ import { assets } from "../../assets/assets";
 import { Context } from "../../context/Context";
 import NameModal from "../SignIn/NameModal";
 import Cards from "../../Subcomponents/Cards";
+import { stripHtmlTags } from "../../utils/stripHtmlTags";
 
 const Main = ({ toggleSidebar }) => {
   const {
@@ -14,6 +15,7 @@ const Main = ({ toggleSidebar }) => {
     resultData,
     setInput,
     input,
+    newChat,
   } = useContext(Context);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -25,6 +27,9 @@ const Main = ({ toggleSidebar }) => {
   const [selectedFile, setSelectedFile] = useState(null); // State for selected file
   const [showSummarizer, setShowSummarizer] = useState(false); // State for showing summarizer
   const [showSpellchecker, setShowSpellchecker] = useState(false); // State for showing spellchecker
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const dropdownRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -109,6 +114,27 @@ const Main = ({ toggleSidebar }) => {
     onSent(input, showSummarizer, showSpellchecker);
   };
 
+  // Function to handle like icon click
+  const handleLikeClick = () => {
+    setLiked(true);
+    setDisliked(false); // Optional: reset dislike state if liked
+  };
+
+  // Function to handle dislike icon click
+  const handleDislikeClick = () => {
+    setDisliked(true);
+    setLiked(false); // Optional: reset like state if disliked
+  };
+
+  // Function to handle copy to clipboard
+  const handleCopyClick = () => {
+    const plainText = stripHtmlTags(resultData);
+    navigator.clipboard.writeText(plainText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
+    });
+  };
+
   return (
     <div className="main">
       <div className="nav">
@@ -121,10 +147,10 @@ const Main = ({ toggleSidebar }) => {
           />
           <p onClick={toggleDropdown}>
             {showSummarizer
-              ? "Gemini Summarizer"
+              ? "Geminie Summarizer"
               : showSpellchecker
-              ? "Gemini Spellchecker"
-              : "Gemini"}
+              ? "Geminie Spellchecker"
+              : "Geminie"}
           </p>
           <img
             className="dropdown-arrow"
@@ -152,25 +178,28 @@ const Main = ({ toggleSidebar }) => {
               onClick={() => {
                 setShowSummarizer(false);
                 setShowSpellchecker(false);
+                newChat();
               }}
             >
-              Gemini
+              Geminie
             </p>
             <p
               onClick={() => {
                 setShowSummarizer(true);
                 setShowSpellchecker(false);
+                newChat();
               }}
             >
-              Gemini Summarizer
+              Geminie Summarizer
             </p>
             <p
               onClick={() => {
                 setShowSpellchecker(true);
                 setShowSummarizer(false);
+                newChat();
               }}
             >
-              Gemini Spellchecker
+              Geminie Spellchecker
             </p>
           </div>
         )}
@@ -236,14 +265,44 @@ const Main = ({ toggleSidebar }) => {
               )}
             </div>
             {/* Add new icons below the result text */}
-            <div className="result-icons">
-              <img src={assets.like_icon} alt="Like" />
-              <img src={assets.dislike_icon} alt="Dislike" />
-              <img src={assets.modify_icon} alt="Modify Response" />
-              <img src={assets.share_icon} alt="Share" />
-              <img src={assets.google_icon} alt="Google" />
-              <img src={assets.copy_icon} alt="Copy" />
-            </div>
+            {!loading && (
+              <div className="result-icons">
+                <img
+                  src={liked ? assets.like_filled_icon : assets.like_icon}
+                  alt="Like"
+                  onClick={handleLikeClick}
+                />
+                <img
+                  src={
+                    disliked ? assets.dislike_filled_icon : assets.dislike_icon
+                  }
+                  alt="Dislike"
+                  onClick={handleDislikeClick}
+                />
+                <img src={assets.modify_icon} alt="Modify Response" />
+                <img src={assets.share_icon} alt="Share" />
+                <img src={assets.google_icon} alt="Google" />
+                <div style={{ position: "relative" }}>
+                  <img
+                    src={assets.copy_icon}
+                    alt="Copy"
+                    onClick={handleCopyClick}
+                  />
+                  {copied && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "-20px",
+                        left: "-10px",
+                        fontSize: "12px",
+                      }}
+                    >
+                      Copied!
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -295,20 +354,20 @@ const Main = ({ toggleSidebar }) => {
           <p className="bottom-info">
             {showSummarizer ? (
               <>
-                Gemini Summarizer may summarize inaccurate info, including about
-                people, so double-check its response.{" "}
-                <u>Your privacy and Gemini Summarizer</u>
+                Geminie Summarizer may summarize inaccurate info, including
+                about people, so double-check its response.{" "}
+                <u>Your privacy and Geminie Summarizer</u>
               </>
             ) : showSpellchecker ? (
               <>
-                Gemini Spellchecker may correct inaccurate info, including about
-                people, so double-check its response.{" "}
-                <u>Your privacy and Gemini Spellchecker</u>
+                Geminie Spellchecker may correct inaccurate info, including
+                about people, so double-check its response.{" "}
+                <u>Your privacy and Geminie Spellchecker</u>
               </>
             ) : (
               <>
-                Gemini may display inaccurate info, including about people, so
-                double-check its response. <u>Your privacy and Gemini Apps</u>
+                Geminie may display inaccurate info, including about people, so
+                double-check its response. <u>Your privacy and Geminie Apps</u>
               </>
             )}
           </p>

@@ -17,8 +17,10 @@ import dummy_icon from './dummy.png'
 import dropdown_icon from './dropdown_icon.png'
 import signin_icon from './signin_icon.png'
 import options_icon from './options_icon.png'
-import like_icon from './like_icon.png'
-import dislike_icon from './dislike_icon.png'
+import like_icon from './like-outline.svg'
+import dislike_icon from './dislike-outline.svg'
+import like_filled_icon from './like-filled.svg'
+import dislike_filled_icon from './dislike-filled.svg'
 import share_icon from './share_icon.png'
 import copy_icon from './copy_icon.png'
 import google_icon from './google_icon.png'
@@ -48,6 +50,8 @@ export const assets = {
     options_icon,
     like_icon,
     dislike_icon,
+    like_filled_icon,
+    dislike_filled_icon,
     share_icon,
     copy_icon,
     google_icon,

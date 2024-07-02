@@ -17,6 +17,8 @@ const ContextProvider = (props) => {
   const newChat = () => {
     setLoading(false);
     setShowResult(false);
+    setInput(""); // Reset the input
+    setRecentPrompt(""); // Reset the recentPrompt
   };
 
   const onSent = async (prompt, isSummarizer, isSpellchecker) => {
@@ -24,6 +26,11 @@ const ContextProvider = (props) => {
     setResultData("");
     setLoading(true);
     setShowResult(true);
+
+    // Add the prompt to recent history if it's not already present
+    if (prompt && !prevPrompts.includes(prompt)) {
+      setPrevPrompts((prev) => [...prev, prompt]);
+    }
 
     if (isSummarizer && isValidUrl(prompt)) {
       // If input is a URL and summarizer is selected, use the summarizer API
